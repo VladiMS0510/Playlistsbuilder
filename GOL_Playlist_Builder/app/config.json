@@ -1,0 +1,9 @@
+{
+  "fixed_mappings": {
+    "Video lyrics canción oficial Gol Caracol": "D:\\PARRILLAS\\GOL\\CORTINILLAS\\Gol gol gol Caracol 🎶 - Canción Oficial del Gol Caracol.mp4",
+    "Opening Gol Caracol": "D:\\PARRILLAS\\GOL\\CORTINILLAS\\LOOP GOL.mov",
+    "Opening Anecdotario": "D:\\PARRILLAS\\GOL\\CORTINILLAS\\TRANSICION 10 SEG ANECDOTARIO.mp4"
+  },
+  "supported_extensions": [".mp4", ".mov", ".mxf", ".avi", ".mkv", ".ts", ".mts", ".m2ts", ".wmv"],
+  "minimum_match_score": 55
+}

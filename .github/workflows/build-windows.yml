@@ -21,23 +21,19 @@ jobs:
           python -m pip install --upgrade pip
           pip install pyinstaller pillow pytesseract
 
-      - name: Install Tesseract OCR (Portable)
+      - name: Install Tesseract OCR (Via Choco)
         shell: powershell
         run: |
-          # Descargar una versión portable y estable de Tesseract directamente de GitHub
-          $url = "https://github.com"
+          # Instalar de forma nativa usando el gestor preinstalado en GitHub
+          choco install tesseract --yes
           
-          # Intentar descarga con TLS 1.2 forzado para evitar bloqueos
-          [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-          Invoke-WebRequest -Uri $url -OutFile "tesseract-setup.exe"
-          
-          # Instalar de forma silenciosa en segundo plano
-          Start-Process -FilePath ".\tesseract-setup.exe" -ArgumentList "/S" -Wait
-          
-          # Mapear e independizar la carpeta para PyInstaller
-          $paths=@("C:\Program Files\Tesseract-OCR","C:\Program Files (x86)\Tesseract-OCR")
-          foreach($p in $paths){ if(Test-Path "$p\tesseract.exe"){ Copy-Item $p "tesseract" -Recurse -Force; break } }
-          if(-not (Test-Path "tesseract\tesseract.exe")){ throw "Tesseract no encontrado en el sistema virtual" }
+          # Forzar la copia local para empaquetar con PyInstaller
+          $p = "C:\Program Files\Tesseract-OCR"
+          if (Test-Path "$p\tesseract.exe") { 
+              Copy-Item $p "tesseract" -Recurse -Force 
+          } else { 
+              throw "Tesseract no se instaló correctamente en la ruta esperada" 
+          }
 
       - name: Build
         run: |

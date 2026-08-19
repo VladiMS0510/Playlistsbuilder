@@ -24,10 +24,7 @@ jobs:
       - name: Install Tesseract OCR (Via Choco)
         shell: powershell
         run: |
-          # Instalar de forma nativa usando el gestor preinstalado en GitHub
           choco install tesseract --yes
-          
-          # Forzar la copia local para empaquetar con PyInstaller
           $p = "C:\Program Files\Tesseract-OCR"
           if (Test-Path "$p\tesseract.exe") { 
               Copy-Item $p "tesseract" -Recurse -Force 

@@ -48,7 +48,7 @@ class App(tk.Tk):
 
         g = ttk.LabelFrame(self, text="Carpeta raíz")
         g.pack(fill="x", **p)
-        ttk.Entry(g, textvariable=self.folder).pack(side="left", fill="x", expand=True, padx=6,搬dy=6)
+        ttk.Entry(g, textvariable=self.folder).pack(side="left", fill="x", expand=True, padx=6, pady=6)
         ttk.Button(g, text="Examinar", command=self.choose_folder).pack(side="right", padx=6)
 
         o = ttk.LabelFrame(self, text="Salida")

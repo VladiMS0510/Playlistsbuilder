@@ -8,28 +8,42 @@ on:
 jobs:
   build:
     runs-on: windows-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt pyinstaller
+
       - name: Install Tesseract OCR
         shell: powershell
         run: |
-          winget install --id UB-Mannheim.TesseractOCR --silent --accept-package-agreements --accept-source-agreements
+          # Descargar el instalador directo de la Universidad de Mannheim
+          $url = "https://uni-mannheim.de"
+          Invoke-WebRequest -Uri $url -OutFile "tesseract-setup.exe"
+          
+          # Instalar en segundo plano de forma silenciosa
+          Start-Process -FilePath ".\tesseract-setup.exe" -ArgumentList "/S" -Wait
+          
+          # Copiar los archivos instalados al directorio local para PyInstaller
           $paths=@("C:\Program Files\Tesseract-OCR","C:\Program Files (x86)\Tesseract-OCR")
           foreach($p in $paths){ if(Test-Path "$p\tesseract.exe"){ Copy-Item $p "tesseract" -Recurse -Force; break } }
           if(-not (Test-Path "tesseract\tesseract.exe")){ throw "Tesseract no encontrado" }
+
       - name: Build
         run: |
           pyinstaller --noconfirm --clean --onedir --windowed --name "GOL-Playlist-Builder" --add-data "app/config.json;." --add-data "tesseract;tesseract" --paths "app" app/main.py
+
       - name: Zip
         shell: powershell
         run: Compress-Archive -Path "dist\GOL-Playlist-Builder\*" -DestinationPath "GOL-Playlist-Builder-Windows.zip"
+
       - uses: actions/upload-artifact@v4
         with:
           name: GOL-Playlist-Builder-Windows

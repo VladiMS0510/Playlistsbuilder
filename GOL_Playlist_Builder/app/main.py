@@ -111,10 +111,12 @@ class App(tk.Tk):
             # Escaneo profundo: Busca en la carpeta especificada y en TODAS sus subcarpetas internas
             self.files = scan(target_path, CFG["supported_extensions"])
             
-            fixed = CFG["fixed_mappings"]
+            # --- CORRECCIÓN AQUÍ ---
+            # Forzamos un diccionario vacío para ignorar las rutas fijas viejas del config.json
+            fixed = {} 
             minimum = CFG["minimum_match_score"]
             
-            # Buscar el archivo óptimo comparando el nombre limpio extraído contra el índice
+            # Buscar el archivo óptimo comparando el nombre limpio extraído contra el índice de archivos reales
             self.matches = [match(r.title, self.files, fixed, minimum) for r in self.rows]
             
             for x in self.tree.get_children():

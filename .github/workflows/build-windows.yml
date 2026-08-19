@@ -34,7 +34,7 @@ jobs:
 
       - name: Build
         run: |
-          pyinstaller --noconfirm --clean --onedir --windowed --name "GOL-Playlist-Builder" --add-data "app/config.json;." --add-data "tesseract;tesseract" --paths "app" app/main.py
+          pyinstaller --noconfirm --clean --onedir --windowed --name "GOL-Playlist-Builder" --add-data "GOL_Playlist_Builder/app/config.json;." --add-data "tesseract;tesseract" --paths "GOL_Playlist_Builder/app" GOL_Playlist_Builder/app/main.py
 
       - name: Zip
         shell: powershell

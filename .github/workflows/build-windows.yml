@@ -19,7 +19,7 @@ jobs:
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pyinstaller pillow pytesseract
+          pip install pyinstaller pillow pytesseract rapidfuzz
 
       - name: Install Tesseract OCR (Via Choco)
         shell: powershell
